@@ -1,0 +1,2 @@
+GET     /                                       Application.Index
+GET     /log/:page                              Application.Log
