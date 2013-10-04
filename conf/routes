@@ -1,2 +1,3 @@
 GET     /                                       Application.Index
-GET     /log/:page                              Application.Log
+GET     /ocr/                                   Ocr.Index
+GET     /ocr/:page                              Ocr.Show

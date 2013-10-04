@@ -8,11 +8,18 @@ type Application struct {
   *revel.Controller
 }
 
-func (c Application) Index() revel.Result {
-  return c.Render()
-  //return c.Redirect(routes.Application.Log)
+type Ocr struct {
+  *revel.Controller
 }
 
-func (c Application) Log(page int) revel.Result {
+func (c Application) Index() revel.Result {
+  return c.Render()
+}
+
+func (c Ocr) Index() revel.Result {
+  return c.Render()
+}
+
+func (c Ocr) Show(page int) revel.Result {
   return c.Render(page)
 }
