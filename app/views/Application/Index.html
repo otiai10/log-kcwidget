@@ -5,5 +5,12 @@
   </head>
   <body>
     <h1>ログサーバのインデックスページ</h1>
+    <ol>
+      {{range .people}}
+      <li>
+        <span class="name">{{.Name}}</span> : <span class="phone">{{.Phone}}</span>
+      </li>
+      {{end}}
+    </ol>
   </body>
 </html>
