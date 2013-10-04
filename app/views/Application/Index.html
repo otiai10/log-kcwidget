@@ -2,15 +2,20 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/public/stylesheets/common.css">
   </head>
   <body>
     <h1>ログサーバのインデックスページ</h1>
-    <ol>
-      {{range .people}}
-      <li>
-        <span class="name">{{.Name}}</span> : <span class="phone">{{.Phone}}</span>
-      </li>
+    <table><tbody>
+      {{range .reports}}
+      <tr>
+        <td class="created-time">{{.CreatedTime}}</td>
+        <td class="ImageURI"><img src="{{.ImgURI}}"></td>
+        <td class="rawText">{{.RawText}}</td>
+        <td class="assuredText">{{.AssuredText}}</td>
+        <td class="result">{{.Result}}</td>
+      </tr>
       {{end}}
-    </ol>
+    </tbody></table>
   </body>
 </html>
