@@ -4,7 +4,6 @@ import (
   "github.com/robfig/revel"
   "labix.org/v2/mgo"
   //"otiai10/logServer/app/routes"
-  "fmt"
 )
 
 type Application struct {
@@ -24,11 +23,6 @@ type OcrReport struct {
   RawText     string
   AssuredText string
   Result      bool
-}
-
-type Person struct {
-  Name  string
-  Phone string
 }
 
 func (c Application) Index() revel.Result {
@@ -71,20 +65,11 @@ func (c Test) Upload(
     assuredText string,
     result bool) revel.Result {
 
-  fmt.Printf("submit      => %v\n", submit)
-  fmt.Printf("imgURI      => %v\n", imgURI)
-  fmt.Printf("createdTime => %v\n", createdTime)
-  fmt.Printf("userAgent   => %v\n", userAgent)
-  fmt.Printf("rawText     => %v\n", rawText)
-  fmt.Printf("assuredText => %v\n", assuredText)
-  fmt.Printf("result      => %v\n", result)
-
   session, err := mgo.Dial("localhost")
   if err != nil {
     panic(err)
   }
   defer session.Close()
-  // Optional. Switch the session to a monotonic behavior.
 
   report := &OcrReport{
     ImgURI:      imgURI,
@@ -95,9 +80,10 @@ func (c Test) Upload(
     Result:      result,
   }
 
-  //if result {
-  //  return c.RenderJson(report)
-  //}
+  // TODO: more validation
+  if result {
+    return c.RenderJson(report)
+  }
   session.SetMode(mgo.Monotonic, true)
   con := session.DB("kcwidget").C("logOcr")
   err = con.Insert(report)
