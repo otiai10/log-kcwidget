@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/public/stylesheets/common.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript"  src="/public/javascripts/tmp.js"></script>
   </head>
   <body>
     <h1>OCR log</h1>
@@ -26,16 +27,5 @@
       </tr>
       {{end}}
     </tbody></table>
-    <script>
-      $(function(){
-        $('.proxy').each(function(){
-          var uri = $(this).html();
-          var img = new Image();
-          img.src = uri;
-          $(this).after(img.outerHTML);
-          $(this).remove();
-        });
-      });
-    </script>
   </body>
 </html>
