@@ -2,17 +2,14 @@ package controllers
 
 import (
   "github.com/robfig/revel"
-  "labix.org/v2/mgo"
   //"otiai10/logServer/app/routes"
+  "otiai10/logServer/app/models"
 )
 
 type Application struct {
   *revel.Controller
 }
 type Ocr struct {
-  *revel.Controller
-}
-type Test struct {
   *revel.Controller
 }
 
@@ -26,37 +23,25 @@ type OcrReport struct {
 }
 
 func (c Application) Index() revel.Result {
-
-  session, err := mgo.Dial("localhost")
-  if err != nil {
-          panic(err)
-  }
-  defer session.Close()
-  // Optional. Switch the session to a monotonic behavior.
-  session.SetMode(mgo.Monotonic, true)
-  con := session.DB("kcwidget").C("logOcr")
-  reports := []OcrReport{}
-  err = con.Find(nil).All(&reports)
-  if err != nil {
-          panic(err)
-  }
-
-  return c.Render(reports)
+  return c.Render()
 }
 
 func (c Ocr) Index() revel.Result {
-  return c.Render()
+  reports := ocrReport.Page(0)
+  count := ocrReport.Count()
+  return c.Render(reports, count)
 }
 
 func (c Ocr) Show(page int) revel.Result {
-  return c.Render(page)
+  if page < 0 {
+    page = 0
+  }
+  reports := ocrReport.Page(page)
+  count   := len(reports)
+  return c.Render(page, reports, count)
 }
 
-func (c Test) Index() revel.Result {
-  return c.Render()
-}
-
-func (c Test) Upload(
+func (c Ocr) Upload(
     submit string,
     imgURI string,
     createdTime int,
@@ -65,31 +50,7 @@ func (c Test) Upload(
     assuredText string,
     result bool) revel.Result {
 
-  session, err := mgo.Dial("localhost")
-  if err != nil {
-    panic(err)
-  }
-  defer session.Close()
+  added := ocrReport.Add(imgURI, createdTime, userAgent, rawText, assuredText, result)
 
-  report := &OcrReport{
-    ImgURI:      imgURI,
-    CreatedTime: createdTime,
-    UserAgent:   userAgent,
-    RawText:     rawText,
-    AssuredText: assuredText,
-    Result:      result,
-  }
-
-  // TODO: more validation
-  if result {
-    return c.RenderJson(report)
-  }
-  session.SetMode(mgo.Monotonic, true)
-  con := session.DB("kcwidget").C("logOcr")
-  err = con.Insert(report)
-  if err != nil {
-    panic(err)
-  }
-
-  return c.RenderJson(report)
+  return c.RenderJson(added)
 }

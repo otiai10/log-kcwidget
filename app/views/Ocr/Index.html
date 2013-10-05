@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-</head>
-<body>
-  <h1>OCR Logs</h1>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/public/stylesheets/common.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  </head>
+  <body>
+    <h1>OCR log</h1>
+    <span>Total {{.count}} records</span>
+    <table><tbody>
+      {{range .reports}}
+      <tr>
+        <td>
+          <span class="created-time" data="{{.CreatedTime}}">{{.CreatedTime}}</span><br>
+          <span class="proxy" cols="50" rows="50">{{.ImgURI}}</span>
+        </td>
+        <td>
+          -{{.RawText}}<br>
+          +{{.AssuredText}}
+        </td>
+        <td>
+          {{.Result}}<br>
+          {{.UserAgent}}
+        </td>
+      </tr>
+      {{end}}
+    </tbody></table>
+    <script>
+      $(function(){
+        $('.proxy').each(function(){
+          var uri = $(this).html();
+          var img = new Image();
+          img.src = uri;
+          $(this).after(img.outerHTML);
+          $(this).remove();
+        });
+      });
+    </script>
+  </body>
 </html>

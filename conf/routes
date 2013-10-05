@@ -1,8 +1,5 @@
 GET     /                 Application.Index
 GET     /ocr/             Ocr.Index
 GET     /ocr/:page        Ocr.Show
-
+POST    /ocr/upload       Ocr.Upload
 GET     /public/*filepath Static.Serve("public")
-
-GET     /test             Test.Index
-POST    /test/upload      Test.Upload
