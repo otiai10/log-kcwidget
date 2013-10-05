@@ -36,9 +36,14 @@ func (c Ocr) Show(page int) revel.Result {
   if page < 0 {
     page = 0
   }
+  before := page - 1
+  after  := page + 1
+  if before < 0 {
+    before = 0
+  }
   reports := ocrReport.Page(page)
   count   := len(reports)
-  return c.Render(page, reports, count)
+  return c.Render(page, reports, count, before, after)
 }
 
 func (c Ocr) Upload(

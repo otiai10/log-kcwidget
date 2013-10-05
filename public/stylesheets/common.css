@@ -2,3 +2,7 @@
 td {
   border-bottom: thin dashed #aaa;
 }
+
+div.paging {
+  text-align: center;
+}
