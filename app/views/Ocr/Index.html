@@ -4,15 +4,16 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/public/stylesheets/common.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript"  src="/public/javascripts/tmp.js"></script>
+    <script type="text/javascript" src="/public/javascripts/tmp.js"></script>
+    <script type="text/javascript" src="/public/javascripts/events.js"></script>
   </head>
   <body>
-    <h1>OCR log</h1>
+    <h1><a href="/ocr">OCR</a> log</h1>
     <p>Total <b>{{.count}}</b> records</p>
     <p>latest 5 records below</p>
     <table><tbody>
       {{range .reports}}
-      <tr>
+      <tr id="{{.CreatedTime}}">
         <td>
           <span class="created-time" data="{{.CreatedTime}}">{{.CreatedTime}}</span><br>
           <span class="proxy" cols="50" rows="50">{{.ImgURI}}</span>
@@ -24,6 +25,9 @@
         <td>
           {{.Result}}<br>
           {{.UserAgent}}
+        </td>
+        <td>
+          <input type="submit" class="delelte-record" target="{{.CreatedTime}}" value="delete">
         </td>
       </tr>
       {{end}}

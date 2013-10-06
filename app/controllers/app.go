@@ -2,8 +2,9 @@ package controllers
 
 import (
   "github.com/robfig/revel"
-  //"otiai10/logServer/app/routes"
   "otiai10/logServer/app/models"
+  //"otiai10/logServer/app/routes"
+  //"fmt"
 )
 
 type Application struct {
@@ -59,3 +60,9 @@ func (c Ocr) Upload(
 
   return c.RenderJson(added)
 }
+
+func (c Ocr) Delete(target int) revel.Result {
+  deleted := ocrReport.Delete(target)
+  return c.RenderJson(deleted)
+}
+

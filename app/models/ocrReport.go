@@ -2,9 +2,12 @@ package ocrReport
 
 import (
   "labix.org/v2/mgo"
+  "labix.org/v2/mgo/bson"
 )
 
 type OcrReport struct {
+  // idとりたい
+  //Id          string
   ImgURI      string
   CreatedTime int
   UserAgent   string
@@ -116,5 +119,28 @@ func Add(
     panic(err)
   }
 
+  return report
+}
+
+func Delete(targetCreatedTime int) OcrReport {
+
+  // {{{ TODO : DRY
+  session, err := mgo.Dial("localhost")
+  if err != nil {
+    panic(err)
+  }
+  defer session.Close()
+  session.SetMode(mgo.Monotonic, true)
+  collection := session.DB("kcwidget").C("logOcr")
+  // }}}
+
+  report := OcrReport{}
+  err = collection.Find(bson.M{"createdtime" : targetCreatedTime }).One(&report)
+
+  err = collection.Remove(bson.M{"createdtime" : targetCreatedTime })
+
+  //if err == nil {
+  //  return report
+  //}
   return report
 }
