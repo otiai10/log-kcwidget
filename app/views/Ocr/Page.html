@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/public/stylesheets/common.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/public/javascripts/tmp.js"></script>
+    <script type="text/javascript"  src="/public/javascripts/tmp.js"></script>
     <script type="text/javascript" src="/public/javascripts/events.js"></script>
   </head>
+
   <body>
-    <h1><a href="/ocr">OCR</a> log</h1>
-    <p>Total <b>{{.count}}</b> records</p>
-    <p>latest 10 records below</p>
+    <h1><a href="/ocr">OCR</a> log : page{{.page}}</h1>
+    <span>{{.count}} records found</span>
     <table><tbody>
       {{range .reports}}
       <tr id="{{.CreatedTime}}">
@@ -33,7 +33,7 @@
       {{end}}
     </tbody></table>
     <div class="paging">
-        <a href="/ocr/page/0">0</a> | <a href="/ocr/page/1">1</a>
+      <a href="/ocr/page/{{.before}}">&lt</a> | <a href="/ocr/page/{{.after}}">&gt</a>
     </div>
   </body>
 </html>

@@ -1,5 +1,5 @@
 $(function(){
-  $('span.created-time').each(function(){
+  $('a.created-time').each(function(){
     var s = $(this).html();
     var d = new Date(parseInt(s));
     $(this).html(d.toLocaleString());

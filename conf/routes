@@ -1,6 +1,7 @@
 GET     /                 Application.Index
 GET     /ocr/             Ocr.Index
-GET     /ocr/:page        Ocr.Show
+GET     /ocr/:id          Ocr.Show
+GET     /ocr/page/:page   Ocr.Page
 POST    /ocr/upload       Ocr.Upload
 POST    /ocr/delete       Ocr.Delete
 GET     /public/*filepath Static.Serve("public")

@@ -20,7 +20,7 @@ func init() {
 }
 
 func Page(page int) []OcrReport {
-  count := 5
+  count := 10
   skip  := count * page
 
   // {{{ TODO : DRY
@@ -40,6 +40,23 @@ func Page(page int) []OcrReport {
     panic(err)
   }
   return reports
+}
+
+func Get(targetCreatedTime int) OcrReport {
+
+  // {{{ TODO : DRY
+  session, err := mgo.Dial("localhost")
+  if err != nil {
+    panic(err)
+  }
+  defer session.Close()
+  session.SetMode(mgo.Monotonic, true)
+  collection := session.DB("kcwidget").C("logOcr")
+  // }}}
+
+  report := OcrReport{}
+  err = collection.Find(bson.M{"createdtime" : targetCreatedTime }).One(&report)
+  return report
 }
 
 // 使っちゃだめよ！！

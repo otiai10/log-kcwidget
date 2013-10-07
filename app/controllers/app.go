@@ -33,7 +33,7 @@ func (c Ocr) Index() revel.Result {
   return c.Render(reports, count)
 }
 
-func (c Ocr) Show(page int) revel.Result {
+func (c Ocr) Page(page int) revel.Result {
   if page < 0 {
     page = 0
   }
@@ -47,6 +47,19 @@ func (c Ocr) Show(page int) revel.Result {
   return c.Render(page, reports, count, before, after)
 }
 
+func (c Ocr) Show(id int) revel.Result {
+  // id って書くけどtargetCreatedTimeなんだよね
+  report := ocrReport.Get(id)
+  //if len(report) == 0 {
+  //  return c.Redirect(routes.Ocr.NotFound())
+  //}
+  return c.Render(report)
+}
+
+func (c Ocr) NotFound() revel.Result {
+  return c.Render()
+}
+
 func (c Ocr) Upload(
     submit string,
     imgURI string,
@@ -57,7 +70,6 @@ func (c Ocr) Upload(
     result bool) revel.Result {
 
   added := ocrReport.Add(imgURI, createdTime, userAgent, rawText, assuredText, result)
-
   return c.RenderJson(added)
 }
 
