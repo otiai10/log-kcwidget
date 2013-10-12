@@ -121,11 +121,6 @@ func Add(
     Result:      result,
   }
 
-  // TODO: more validation
-  if result {
-    return report
-  }
-
   session.SetMode(mgo.Monotonic, true)
   con := session.DB("kcwidget").C("logOcr")
   err = con.Insert(report)
