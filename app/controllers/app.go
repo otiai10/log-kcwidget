@@ -3,8 +3,6 @@ package controllers
 import (
   "github.com/robfig/revel"
   "otiai10/logServer/app/models"
-  //"otiai10/logServer/app/routes"
-  //"fmt"
 )
 
 type Application struct {

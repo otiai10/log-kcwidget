@@ -16,9 +16,6 @@ type OcrReport struct {
   Result      bool
 }
 
-func init() {
-}
-
 func Page(page int) []OcrReport {
   count := 10
   skip  := count * page
@@ -160,4 +157,45 @@ func Delete(targetCreatedTime int) OcrReport {
   //  return report
   //}
   return report
+}
+
+func FindOlder(ts int64, result bool) []OcrReport {
+  // {{{ TODO : DRY
+  session, err := mgo.Dial("localhost")
+  if err != nil {
+    panic(err)
+  }
+  defer session.Close()
+  session.SetMode(mgo.Monotonic, true)
+  collection := session.DB("kcwidget").C("logOcr")
+  // }}}
+
+  reports := []OcrReport{}
+
+  err = collection.Find(bson.M{"createdtime" : bson.M{ "$lt" : ts }, "result" : result}).All(&reports)
+  if err != nil {
+    panic(err)
+  }
+
+  return reports
+}
+
+func Truncate(ts int64) *mgo.ChangeInfo {
+
+  // {{{ TODO : DRY
+  session, err := mgo.Dial("localhost")
+  if err != nil {
+    panic(err)
+  }
+  defer session.Close()
+  session.SetMode(mgo.Monotonic, true)
+  collection := session.DB("kcwidget").C("logOcr")
+  // }}}
+
+  changeInfo, err2 := collection.RemoveAll(bson.M{"createdtime" : bson.M{"$lt": ts}})
+  if err2 != nil {
+    panic(err2)
+  }
+
+  return changeInfo
 }
