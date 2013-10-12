@@ -12,7 +12,7 @@
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var options = {
-          title: 'Company Performance',
+          title: 'OCR Success Rate',
           hAxis: {title: 'DATE',  titleTextStyle: {color: '#333'}},
           vAxis: {minValue: 0},
           isStacked : true
@@ -20,6 +20,7 @@
         var charData = [["Date","Success","Failure"]];
         $.get('/ocr/summary',{},
           function(summary){
+            console.log(summary);
             $.each(summary, function(){
               charData.push([this.DateHour, this.Success, this.Failure]);
             });
