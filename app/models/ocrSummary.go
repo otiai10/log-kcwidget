@@ -31,3 +31,21 @@ func AddSummary(summary OcrSummary) bool {
   }
   return true
 }
+
+func FindAllSummary() []OcrSummary {
+
+  session, err := mgo.Dial("localhost")
+  if err != nil {
+    panic(err)
+  }
+  defer session.Close()
+  session.SetMode(mgo.Monotonic, true)
+  collection := session.DB("kcwidget").C("summaryOcr")
+
+  summaries := []OcrSummary{}
+  err = collection.Find(nil).All(&summaries)
+  if err != nil {
+    panic(err)
+  }
+  return summaries
+}

@@ -76,3 +76,8 @@ func (c Ocr) Delete(target int) revel.Result {
   return c.RenderJson(deleted)
 }
 
+func (c Ocr) Summary() revel.Result {
+  summary := ocrReport.FindAllSummary()
+  return c.RenderJson(summary)
+}
+

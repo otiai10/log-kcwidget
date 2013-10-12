@@ -4,12 +4,37 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/public/stylesheets/common.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="/public/javascripts/tmp.js"></script>
     <script type="text/javascript" src="/public/javascripts/events.js"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var options = {
+          title: 'Company Performance',
+          hAxis: {title: 'DATE',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0},
+          isStacked : true
+        };
+        var charData = [["Date","Success","Failure"]];
+        $.get('/ocr/summary',{},
+          function(summary){
+            $.each(summary, function(){
+              charData.push([this.DateHour, this.Success, this.Failure]);
+            });
+            var data = google.visualization.arrayToDataTable(charData);
+            var chart = new google.visualization.AreaChart(document.getElementById('ocr-summary-chart'));
+            chart.draw(data, options);
+          }
+        );
+      }
+    </script>
   </head>
   <body>
     <h1><a href="/ocr">OCR</a> log</h1>
     <p>Total <b>{{.count}}</b> records</p>
+    <div id="ocr-summary-chart"></div>
     <p>latest 10 records below</p>
     <table><tbody>
       {{range .reports}}
