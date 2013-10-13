@@ -22,7 +22,9 @@
           function(summary){
             console.log(summary);
             $.each(summary, function(){
-              charData.push([this.DateHour, this.Success, this.Failure]);
+              console.log(this);
+              var index = this.Year+'/'+this.Month+'/'+this.Date+'/'+this.Hour+':';
+              charData.push([index, this.Success, this.Failure]);
             });
             var data = google.visualization.arrayToDataTable(charData);
             var chart = new google.visualization.AreaChart(document.getElementById('ocr-summary-chart'));

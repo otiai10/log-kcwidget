@@ -30,7 +30,7 @@ func main() {
   var datehour int
   ye := now.Year()
   mo := int(now.Month())
-  da := now.Day()
+  da := int(now.Day()) - 1//前日
   ho := now.Hour()
   datehour = ye * 1000000 + mo * 10000 + da * 100 + ho
 
