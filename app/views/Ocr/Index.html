@@ -14,20 +14,34 @@
         var options = {
           title: 'OCR Success Rate',
           hAxis: {title: 'DATE',  titleTextStyle: {color: '#333'}},
-          vAxis: {minValue: 0},
-          isStacked : true
+          vAxis: {
+            0 : {minValue: 0},
+            1 : {minValue: 0, maxValue : 100},
+          },
+          seriesType : "area",
+          isStacked : true,
+          series : {
+            0 : {targetAxisIndex : 0},
+            1 : {targetAxisIndex : 0},
+            2 : {targetAxisIndex : 1 , isStacked : false , type:'line', color : 'green' }
+          }
         };
+        var data = new google.visualization.DataTable();
         var charData = [["Date","Success","Failure"]];
+        data.addColumn('string','date');
+        data.addColumn('number','Success');
+        data.addColumn('number','Failure');
+        data.addColumn('number','Rate(%)');
         $.get('/ocr/summary',{},
           function(summary){
             console.log(summary);
             $.each(summary, function(){
               console.log(this);
-              var index = this.Year+'/'+this.Month+'/'+this.Date+'/'+this.Hour+':';
-              charData.push([index, this.Success, this.Failure]);
+              var index = this.Date+'/'+this.Hour+':';
+              var rate = Math.floor(this.Success * 100 / (this.Success + this.Failure));
+              data.addRow([index, this.Success, this.Failure, rate]);
             });
-            var data = google.visualization.arrayToDataTable(charData);
-            var chart = new google.visualization.AreaChart(document.getElementById('ocr-summary-chart'));
+            var chart = new google.visualization.ComboChart(document.getElementById('ocr-summary-chart'));
             chart.draw(data, options);
           }
         );
