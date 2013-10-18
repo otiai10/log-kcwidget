@@ -3,6 +3,7 @@ package controllers
 import (
   "github.com/robfig/revel"
   "otiai10/logServer/app/models"
+  "time"
 )
 
 type Application struct {
@@ -25,13 +26,33 @@ func (c Application) Index() revel.Result {
   return c.Render()
 }
 
+func calcVelocity(reports []ocrReport.OcrReport) int {
+  rowCount := len(reports)
+  head := reports[0:1][0]
+  tail := reports[len(reports)-1:][0]
+  minRange := (head.CreatedTime - tail.CreatedTime)/int(time.Minute/time.Millisecond)
+  return rowCount/minRange
+}
+
 func (c Ocr) Index() revel.Result {
-  reports := ocrReport.Page(0)
+  countPerPage := 40
+  reports := ocrReport.Page(0, countPerPage)
   count := ocrReport.Count()
-  return c.Render(reports, count)
+  _s, _f := 0, 0
+  for _,r := range reports {
+    if r.Result {
+      _s++
+      continue
+    }
+    _f++
+  }
+  latestSuccessRate := _s*100 /(_s + _f)
+  latestVelocity := calcVelocity(reports)
+  return c.Render(reports, count, countPerPage, latestSuccessRate, latestVelocity)
 }
 
 func (c Ocr) Page(page int) revel.Result {
+  countPerPage := 40
   if page < 0 {
     page = 0
   }
@@ -40,9 +61,9 @@ func (c Ocr) Page(page int) revel.Result {
   if before < 0 {
     before = 0
   }
-  reports := ocrReport.Page(page)
+  reports := ocrReport.Page(page, countPerPage)
   count   := len(reports)
-  return c.Render(page, reports, count, before, after)
+  return c.Render(page, reports, count, before, after, countPerPage)
 }
 
 func (c Ocr) Show(id int) revel.Result {

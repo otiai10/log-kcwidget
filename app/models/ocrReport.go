@@ -16,8 +16,8 @@ type OcrReport struct {
   Result      bool
 }
 
-func Page(page int) []OcrReport {
-  count := 10
+func Page(page int, countPerPage int) []OcrReport {
+  count := countPerPage
   skip  := count * page
 
   // {{{ TODO : DRY
