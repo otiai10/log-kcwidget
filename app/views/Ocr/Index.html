@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>OCR Log - kanColleWidget</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/public/stylesheets/common.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -38,7 +39,7 @@
             console.log(summary);
             $.each(summary, function(){
               console.log(this);
-              var index = this.Date+'/'+this.Hour+':';
+              var index = this.Month+'/'+this.Date+'/'+this.Hour+':00';
               var rate = Math.floor(this.Success * 100 / (this.Success + this.Failure));
               data.addRow([index, this.Success, this.Failure, rate]);
             });
