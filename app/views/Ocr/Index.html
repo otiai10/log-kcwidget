@@ -23,17 +23,17 @@
           seriesType : "area",
           isStacked : true,
           series : {
-            0 : {targetAxisIndex : 0},
-            1 : {targetAxisIndex : 0},
-            2 : {targetAxisIndex : 1 , isStacked : false , type:'line', color : 'green' }
+            0 : {targetAxisIndex : 0, color : '#dc3912'},
+            1 : {targetAxisIndex : 0, color : '#3366cc'},
+            2 : {targetAxisIndex : 1 , isStacked : false , type:'line'}
           }
         };
         var data = new google.visualization.DataTable();
-        var charData = [["Date","Success","Failure"]];
+        var charData = [["Date","Failure","Success"]];
         data.addColumn('string','date');
-        data.addColumn('number','Success');
         data.addColumn('number','Failure');
-        data.addColumn('number','Rate(%)');
+        data.addColumn('number','Success');
+        data.addColumn('number','Success Rate(%)');
         $.get('/ocr/summary',{},
           function(summary){
             console.log(summary);
@@ -41,7 +41,7 @@
               console.log(this);
               var index = this.Month+'/'+this.Date+'/'+this.Hour+':00';
               var rate = Math.floor(this.Success * 100 / (this.Success + this.Failure));
-              data.addRow([index, this.Success, this.Failure, rate]);
+              data.addRow([index, this.Failure, this.Success, rate]);
             });
             var chart = new google.visualization.ComboChart(document.getElementById('ocr-summary-chart'));
             chart.draw(data, options);
