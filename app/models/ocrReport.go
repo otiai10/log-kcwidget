@@ -14,6 +14,7 @@ type OcrReport struct {
   RawText     string
   AssuredText string
   Result      bool
+  ExtVer      string
 }
 
 func Page(page int, countPerPage int) []OcrReport {
@@ -103,7 +104,8 @@ func Add(
     userAgent string,
     rawText string,
     assuredText string,
-    result bool) *OcrReport {
+    result bool,
+    extVer string) *OcrReport {
 
   session, err := mgo.Dial("localhost")
   if err != nil {
@@ -119,6 +121,7 @@ func Add(
     RawText:     rawText,
     AssuredText: assuredText,
     Result:      result,
+    ExtVer:      extVer,
   }
 
   session.SetMode(mgo.Monotonic, true)

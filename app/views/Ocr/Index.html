@@ -69,8 +69,11 @@
           +{{.AssuredText}}
         </td>
         <td>
-          {{.Result}}<br>
-          {{.UserAgent}}
+          <span {{if eq .Result false}}style="font-weight:bold;"{{end}}>{{.Result}}</span><br>
+          <p style="font-size:x-small;">
+            {{.UserAgent}}<br>
+            ver{{.ExtVer}}
+          </p>
         </td>
         <td>
           <input type="submit" class="delelte-record" target="{{.CreatedTime}}" value="delete">
