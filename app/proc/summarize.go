@@ -6,7 +6,7 @@ package main
 
 import (
   "time"
-  "otiai10/logServer/app/models"
+  "otiai10/log-kcwidget/app/models"
   "fmt"
 )
 
