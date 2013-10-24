@@ -21,11 +21,14 @@
           +{{.report.AssuredText}}
         </td>
         <td>
-          {{.report.Result}}<br>
-          {{.report.UserAgent}}
+          <span {{if eq .report.Result false}}style="font-weight:bold;"{{end}}>{{.report.Result}}</span><br>
+          <p style="font-size:x-small;">
+            {{.report.UserAgent}}<br>
+            kanColleWidget/{{.report.ExtVer}}
+          </p>
         </td>
         <td>
-          <input type="submit" class="delelte-record" target="{{.CreatedTime}}" value="delete">
+          <input type="submit" class="delelte-record" target="{{.report.CreatedTime}}" value="delete">
         </td>
       </tr>
     </tbody></table>
