@@ -8,47 +8,7 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="/public/javascripts/tmp.js"></script>
     <script type="text/javascript" src="/public/javascripts/events.js"></script>
-    <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var options = {
-          title: 'OCR Requests',
-          hAxis: {title: 'DATE',  titleTextStyle: {color: '#333'}},
-          vAxis: {
-            0 : {minValue: 0},
-            1 : {minValue: 0},
-            maxValue : 100
-          },
-          seriesType : "area",
-          isStacked : true,
-          series : {
-            0 : {targetAxisIndex : 0, color : '#dc3912'},
-            1 : {targetAxisIndex : 0, color : '#3366cc'},
-            2 : {targetAxisIndex : 1 , isStacked : false , type:'line'}
-          }
-        };
-        var data = new google.visualization.DataTable();
-        var charData = [["Date","Failure","Success"]];
-        data.addColumn('string','date');
-        data.addColumn('number','Failure');
-        data.addColumn('number','Success');
-        data.addColumn('number','Success Rate(%)');
-        $.get('/ocr/summary',{},
-          function(summary){
-            console.log(summary);
-            $.each(summary, function(){
-              console.log(this);
-              var index = this.Month+'/'+this.Date+'/'+this.Hour+':00';
-              var rate = Math.floor(this.Success * 100 / (this.Success + this.Failure));
-              data.addRow([index, this.Failure, this.Success, rate]);
-            });
-            var chart = new google.visualization.ComboChart(document.getElementById('ocr-summary-chart'));
-            chart.draw(data, options);
-          }
-        );
-      }
-    </script>
+    <script type="text/javascript" src="/public/javascripts/chart.js"></script>
   </head>
   <body>
     <div id="options"><p><input type="checkbox" id="option-auto-reload"> auto reload</p></div>

@@ -98,8 +98,12 @@ func (c Ocr) Delete(target int) revel.Result {
   return c.RenderJson(deleted)
 }
 
-func (c Ocr) Summary() revel.Result {
-  summary := ocrReport.FindAllSummary()
+func (c Ocr) Summary(datehour int) revel.Result {
+  var summary []ocrReport.OcrSummary
+  if datehour == 0 {
+    summary = ocrReport.FindAllSummary()
+  } else {
+    summary = ocrReport.FindSummary(datehour)
+  }
   return c.RenderJson(summary)
 }
-

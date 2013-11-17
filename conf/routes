@@ -1,8 +1,9 @@
-GET     /                 Application.Index
-GET     /ocr/             Ocr.Index
-GET     /ocr/page/:page   Ocr.Page
-POST    /ocr/upload       Ocr.Upload
-POST    /ocr/delete       Ocr.Delete
-GET     /ocr/summary      Ocr.Summary
-GET     /ocr/:id          Ocr.Show
-GET     /public/*filepath Static.Serve("public")
+GET     /                      Application.Index
+GET     /ocr/                  Ocr.Index
+GET     /ocr/page/:page        Ocr.Page
+POST    /ocr/upload            Ocr.Upload
+POST    /ocr/delete            Ocr.Delete
+GET     /ocr/summary/          Ocr.Summary
+GET     /ocr/summary/:datehour Ocr.Summary
+GET     /ocr/:id               Ocr.Show
+GET     /public/*filepath      Static.Serve("public")
