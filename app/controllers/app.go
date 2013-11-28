@@ -87,9 +87,10 @@ func (c Ocr) Upload(
     rawText string,
     assuredText string,
     result bool,
-    extVer string) revel.Result {
+    extVer string,
+    ocrVer string) revel.Result {
 
-  added := ocrReport.Add(imgURI, createdTime, userAgent, rawText, assuredText, result, extVer)
+  added := ocrReport.Add(imgURI, createdTime, userAgent, rawText, assuredText, result, extVer, ocrVer)
   return c.RenderJson(added)
 }
 
