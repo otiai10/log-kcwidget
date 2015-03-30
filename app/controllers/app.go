@@ -1,8 +1,8 @@
 package controllers
 
 import (
-  "github.com/robfig/revel"
-  "otiai10/log-kcwidget/app/models"
+  "github.com/revel/revel"
+  "github.com/otiai10/log-kcwidget/app/models"
   "time"
 )
 
